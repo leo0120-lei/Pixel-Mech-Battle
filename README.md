@@ -22,19 +22,3 @@
 | 投掷武器*    | S                   | Ctrl              |
 
 *仅限可投掷武器（手里剑、爆能枪、火箭筒）*
-
-## 📦 项目结构
-.
-├── server.js # Node.js 后端（HTTP + WebSocket）
-├── package.json # 依赖配置（ws 库）
-├── users.json # 存储用户名和密码
-├── index.html # 游戏主页面
-├── css/
-│ └── style.css # 样式文件
-├── js/
-│ ├── mech.js # 机甲类与武器系统
-│ ├── input.js # 键盘输入处理
-│ ├── render.js # Canvas 渲染与特效
-│ ├── network.js # WebSocket 网络管理
-│ └── game.js # 游戏主逻辑
-└── README.md # 本文件
