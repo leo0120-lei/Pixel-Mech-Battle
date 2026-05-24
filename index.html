@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>机甲对战 - Pixel Mech Battle</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="game-container">
+        <div id="login-screen">
+            <h1>机甲对战</h1>
+            <div class="login-tabs">
+                <div class="login-tab active" id="tab-login">登录</div>
+                <div class="login-tab" id="tab-register">注册</div>
+            </div>
+            <div class="login-form" id="login-form">
+                <input type="text" id="login-username" placeholder="用户名" maxlength="12">
+                <input type="password" id="login-password" placeholder="密码">
+                <div class="error-msg" id="login-error"></div>
+                <button class="menu-btn" id="btn-login">登录</button>
+            </div>
+            <div class="login-form hidden" id="register-form">
+                <input type="text" id="reg-username" placeholder="用户名" maxlength="12">
+                <input type="password" id="reg-password" placeholder="密码">
+                <input type="password" id="reg-password2" placeholder="确认密码">
+                <div class="error-msg" id="reg-error"></div>
+                <button class="menu-btn" id="btn-register">注册</button>
+            </div>
+        </div>
+
+        <div id="menu-screen" class="hidden">
+            <h1>机甲对战</h1>
+            <div id="welcome-user" class="hidden"></div>
+
+            <div id="user-center">
+                <div id="user-not-logged">未登录</div>
+                <div id="user-logged" class="hidden">
+                    <div id="user-avatar">🤖</div>
+                    <span id="user-display-name"></span>
+                    <div id="user-dropdown" class="hidden">
+                        <div class="dropdown-item" id="btn-edit-username">编辑用户名</div>
+                        <div class="dropdown-item" id="btn-change-password">更改密码</div>
+                        <div class="dropdown-item" id="btn-logout">退出登录</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="menu-buttons">
+                <button class="menu-btn" id="btn-local">本地双人模式</button>
+                <button class="menu-btn" id="btn-online">联机模式</button>
+                <button class="menu-btn" id="btn-weapons">⚔️ 武器配置</button>
+            </div>
+        </div>
+        
+        <!-- 武器配置页面 -->
+        <div id="weapon-screen" class="hidden">
+            <h1>武器配置</h1>
+            
+            <!-- 联机模式提示 -->
+            <div id="online-mode-tip" class="hidden">
+                ⚠️ 联机模式使用玩家一武器配置
+            </div>
+            
+            <div class="weapon-config-container">
+                <!-- 玩家一配置区 -->
+                <div class="weapon-player-config">
+                    <h3>玩家一</h3>
+                    <div class="weapon-list" id="weapon-list-p1">
+                        <!-- 武器选项会通过 JS 动态生成 -->
+                    </div>
+                    <div class="current-weapon-info" id="p1-weapon-info">
+                        当前武器：<span class="weapon-name">拳头</span>
+                        <span class="weapon-icon">👊</span>
+                    </div>
+                    <div class="weapon-stats" id="p1-weapon-stats">
+                        <div class="stat"><span>伤害:</span><span class="stat-value" id="p1-damage">低</span></div>
+                        <div class="stat"><span>攻击速度:</span><span class="stat-value" id="p1-speed">快</span></div>
+                        <div class="stat"><span>攻击范围:</span><span class="stat-value" id="p1-range">近</span></div>
+                        <div class="stat"><span>特殊:</span><span class="stat-value" id="p1-special">-</span></div>
+                    </div>
+                </div>
+                
+                <!-- 玩家二配置区 -->
+                <div class="weapon-player-config">
+                    <h3>玩家二</h3>
+                    <div class="weapon-list" id="weapon-list-p2">
+                        <!-- 武器选项会通过 JS 动态生成 -->
+                    </div>
+                    <div class="current-weapon-info" id="p2-weapon-info">
+                        当前武器：<span class="weapon-name">拳头</span>
+                        <span class="weapon-icon">👊</span>
+                    </div>
+                    <div class="weapon-stats" id="p2-weapon-stats">
+                        <div class="stat"><span>伤害:</span><span class="stat-value" id="p2-damage">低</span></div>
+                        <div class="stat"><span>攻击速度:</span><span class="stat-value" id="p2-speed">快</span></div>
+                        <div class="stat"><span>攻击范围:</span><span class="stat-value" id="p2-range">近</span></div>
+                        <div class="stat"><span>特殊:</span><span class="stat-value" id="p2-special">-</span></div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="menu-btn" id="btn-back-from-weapons">返回主菜单</button>
+        </div>
+        
+        <!-- 联机大厅 -->
+        <div id="lobby-screen" class="hidden">
+            <h1>联机大厅</h1>
+
+            <div id="lobby-actions">
+                <button class="menu-btn" id="btn-create-room">创建房间</button>
+                <button class="menu-btn" id="btn-show-join">加入房间</button>
+                <button class="menu-btn" id="btn-back-to-menu">返回主菜单</button>
+            </div>
+
+            <div id="join-room-container" class="hidden">
+                <input type="text" id="join-room-input" placeholder="输入房间号" maxlength="4">
+                <button class="menu-btn" id="btn-join-by-id">加入</button>
+            </div>
+        </div>
+
+        <!-- 登录弹窗（用于联机模式的按需登录） -->
+        <div id="login-modal" class="hidden">
+            <div id="login-modal-content">
+                <h2>登录以继续</h2>
+                <div class="login-tabs">
+                    <div class="login-tab active" id="modal-tab-login">登录</div>
+                    <div class="login-tab" id="modal-tab-register">注册</div>
+                </div>
+                <div class="login-form" id="modal-login-form">
+                    <input type="text" id="modal-login-username" placeholder="用户名" maxlength="12">
+                    <input type="password" id="modal-login-password" placeholder="密码">
+                    <div class="error-msg" id="modal-login-error"></div>
+                    <button class="menu-btn" id="modal-btn-login">登录</button>
+                </div>
+                <div class="login-form hidden" id="modal-register-form">
+                    <input type="text" id="modal-reg-username" placeholder="用户名" maxlength="12">
+                    <input type="password" id="modal-reg-password" placeholder="密码">
+                    <input type="password" id="modal-reg-password2" placeholder="确认密码">
+                    <div class="error-msg" id="modal-reg-error"></div>
+                    <button class="menu-btn" id="modal-btn-register">注册</button>
+                </div>
+                <button class="menu-btn" id="modal-btn-close" style="margin-top:10px;">取消</button>
+            </div>
+        </div>
+        
+        <canvas id="game-canvas" width="800" height="500"></canvas>
+        
+        <div id="ui-overlay">
+            <div id="mode-label" class="hidden"></div>
+            
+            <div id="scoreboard">
+                <span id="score-p1" class="score-p1">0</span>
+                <span class="score-divider">:</span>
+                <span id="score-p2" class="score-p2">0</span>
+            </div>
+            
+            <div id="player1-label" class="player-label">玩家1</div>
+            <div id="player1-health" class="health-bar-container">
+                <div class="health-bar" style="width: 100%"></div>
+            </div>
+            
+            <div id="player2-label" class="player-label">玩家2</div>
+            <div id="player2-health" class="health-bar-container">
+                <div class="health-bar" style="width: 100%"></div>
+            </div>
+            
+            <div id="round-label" class="hidden"></div>
+            <div id="controls-info"></div>
+        </div>
+        
+        <div id="game-over-screen">
+            <div id="winner-text"></div>
+            <button class="menu-btn" id="btn-restart">再来一局</button>
+            <button class="menu-btn" id="btn-menu">返回菜单</button>
+        </div>
+
+        <div id="pause-menu" class="hidden">
+            <div id="pause-content">
+                <h2 id="pause-title">游戏暂停</h2>
+                <button class="menu-btn" id="btn-resume">继续游戏</button>
+                <button class="menu-btn" id="btn-quit-pause">退出</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/mech.js"></script>
+    <script src="js/input.js"></script>
+    <script src="js/render.js"></script>
+    <script src="js/network.js"></script>
+    <script src="js/game.js"></script>
+</body>
+</html>

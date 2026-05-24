@@ -1,0 +1,16 @@
+{
+  "name": "mech-battle",
+  "version": "1.0.0",
+  "description": "Pixel art mech battle game with local network multiplayer",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["game", "pixel-art", "multiplayer"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "ws": "^8.14.2"
+  }
+}
